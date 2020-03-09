@@ -59,6 +59,14 @@ class DefaultController extends Controller
         $contact = new ContactForm();
         Yii::$app->view->params['contact'] = $contact;
         
+        if ($contact->load(Yii::$app->request->post()) && $contact->validate()) {
+            if ($contact->sendEmail(Yii::$app->params['adminEmail'])) {
+                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+            } else {
+                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+            }
+        }
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -95,6 +103,14 @@ class DefaultController extends Controller
         
         $contact = new ContactForm();
         Yii::$app->view->params['contact'] = $contact;
+        
+        if ($contact->load(Yii::$app->request->post()) && $contact->validate()) {
+            if ($contact->sendEmail(Yii::$app->params['adminEmail'])) {
+                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+            } else {
+                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+            }
+        }
 
         return $this->render('view', [
             'post' => $post,
