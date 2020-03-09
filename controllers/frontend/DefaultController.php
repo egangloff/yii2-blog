@@ -19,6 +19,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use frontend\models\ContactForm;
 
 class DefaultController extends Controller
 {
@@ -55,6 +56,9 @@ class DefaultController extends Controller
             ],
         ]);
 
+        $contact = new ContactForm();
+        Yii::$app->view->params['contact'] = $contact;
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -88,6 +92,9 @@ class DefaultController extends Controller
             Yii::$app->session->setFlash('success', Module::t('blog', 'A comment has been added and is awaiting validation'));
             return $this->redirect(['view', 'id' => $post->id, '#' => $comment->id]);
         }
+        
+        $contact = new ContactForm();
+        Yii::$app->view->params['contact'] = $contact;
 
         return $this->render('view', [
             'post' => $post,
